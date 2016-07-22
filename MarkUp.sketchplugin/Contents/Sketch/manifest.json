@@ -1,0 +1,17 @@
+{
+    "name" : "MarkUp",
+    "identifier" : "com.joemanto.markup",
+    "version" : "1.0.0",
+    "description" : "Exports Sketch 3 layers to .md",
+    "authorEmail" : "Joemanto123@gmail.com",
+    "author" : "Joe Manto",
+    "commands" : [
+    {
+      "script" : "script.cocoascript",
+      "handler" : "onRun",
+      "shortcut" : "",
+      "name" : "Export Layers",
+      "identifier" : "export"
+    }
+  ]
+}
