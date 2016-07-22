@@ -5,18 +5,19 @@
 <img height = "244" src = "https://github.com/JoeManto/MarkUp/blob/master/logo_2.jpg"/>
 #How it works
 - MarkUp uses sketch layer attributes and objective c methods to effectively write to a .md file.
-<img height = "313" src = "https://github.com/JoeManto/MarkUp/blob/master/logo_3.jpg"/>
-# Install from repo
+<img height = "213" src = "https://github.com/JoeManto/MarkUp/blob/master/logo_3.jpg"/>
+<br>
+#Install from repo
 - Download and open MarkUp-master folder.
 - Navigate the Sketch menu bar to Plugins ▸ Reveal Plugins Folder...
 - Place MarkUp.sketchplugin into the revealed plugins directory.
 <h5>----OR----</h5>
 - Download and open MarkUp-master folder.
 - Double click MarkUp.sketchplugin (while sketch is open).
-# Notice
+#Notice
 - plugin is not finished or even first commit.
 
-# To-Do
+#To-Do
 - get a working file directory.
 - improve the transfer between sketch and .md.
 - add keyboard shortcut.
