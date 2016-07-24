@@ -1,4 +1,146 @@
 
 function onRun(context) {
+   var doc = context.document;
+   var selectedLayers = context.selection;
+   var selectedCount  = selectedLayers.count();
+   var firstLayer     = selectedLayers.firstObject();
+   var filePath = [NSString string];
+   var alert;
+   var options;
 
+   //Amount of selected layers
+   if(selectedCount == 0) {
+     doc.displayMessage('No layers selected');
+   } else {
+     //Makes alert box
+     alert = makeAlert();
+     //Data on what you pressed in alert box and runs alert.
+     options = handleAlertResponse(alert, alert.runModal());
+     //sorts selectedLayers by y value.
+     sortDataForSelectedLayers();
+     //creates file path and file and writes to that file.
+     createFile();
+   }
+
+   /**
+   * Initialize save panel, set properties, runModal on panel,
+   * @param -
+   * @return {string} return path URL if save is pressed if not return null.
+   * @return {null} if save is not pressed.
+   */
+   function getDirectoryPath(){
+     var panel = [NSSavePanel savePanel];
+     [panel setNameFieldStringValue:"MDExport.md"];
+     panel.setCanCreateDirectories(true);
+     panel.setAllowedFileTypes(["md"]);
+     panel.setCanSelectHiddenExtension(true);
+     var save = panel.runModal();
+     if (save == NSFileHandlingPanelOKButton){
+       return [[panel URL] path];
+     }else{
+       return null;
+     }
+   }
+
+   /**
+   * Initialize with selectedLayers array run insertion sort on the data.(1,2,3,4,5)
+     set selectedLayers to the new sorted data set.
+   * @param -
+   * @return -
+   */
+   function sortDataForSelectedLayers(){
+      var data = [NSMutableArray arrayWithArray:selectedLayers];
+      var temp = 0;
+      for(var i = 1;i<=[data count]-1;i++){
+          for(var z = i;z>0;z--){
+              if(data[z].frame().y()<data[z-1].frame().y()){
+                  temp = data[z];
+                  data[z] = data[z-1];
+                  data[z-1] = temp;
+              }
+          }
+      }
+      selectedLayers = data;
+      log(selectedLayers);
+   }
+
+   /**
+   * Initialized "string" with NSString, looped through data appended that data to "string",
+   * (important note string must be Initialize as a NSString not a js string)
+   * Finaly wrote to file at path.
+   * @param {string} path
+   * @param {NSMutableArray} data
+   * @return -
+   */
+   function writeToFileForPathAndArray(path,data){
+      var string = [NSString string];
+      for(var i = 0;i<=[data count]-1;i++){
+        string = [string stringByAppendingString:[NSString stringWithFormat:@"#%@\n",data[i].stringValue()]];
+      }
+      [string writeToFile:path atomically:true
+      encoding:NSUTF8StringEncoding error:nil];
+   }
+
+   /**
+   * Made a new COSAlertWindow and set properties.
+   * @param -
+   * @param -
+   * @return {COSAlertWindow} alert
+   */
+   function makeAlert(){
+     var alert = COSAlertWindow.new();
+     alert.setMessageText('MarkUp');
+     alert.setInformativeText('Export To');
+     alert.addButtonWithTitle('Export');
+     alert.addButtonWithTitle('Cancel');
+     return alert;
+   }
+
+   /**
+   * Used for global var options. handles the data in makeAlert()
+   * Data like Was "export hit" or "Cancel"
+   * @param - {COSAlertWindow} alert
+   * @param - {string} code
+   * @return {-} -
+   * @return {null} basicly if 'cancel is pressed' options becomes null that this point
+   */
+   function handleAlertResponse(alert, code) {
+     if (code == "1000") {
+       return {
+       };
+     }
+     return null;
+   }
+
+   /**
+   * Looks to see if 'cancel was pressed or not', Gets newPath and sets it to the "NSString" filepath,
+   * Then writes to that file.
+   * @param -
+   * @return -
+   */
+   function createFile(){
+     if(options != null){
+       var newPath = getDirectoryPath();
+       if(newPath) {
+         filePath = [NSString stringWithFormat:@"%@",newPath];
+         writeToFileForPathAndArray(filePath,selectedLayers);
+       }
+     }
+   }
+
+
+
+   /*
+   function createSelectionBox(options, selectedItemIndex) {
+     var selectBox = NSComboBox.alloc().initWithFrame(NSMakeRect(0,0,200,25));
+     selectBox.addItemsWithObjectValues(options);
+     selectBox.selectItemAtIndex(selectedItemIndex);
+     return selectBox;
+   };
+
+   function readFromFileWithPath(path){
+      var str = NSString.stringWithContentsOfFile(path);
+      return str;
+   }
+   */
 };
