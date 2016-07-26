@@ -90,7 +90,7 @@ function onRun(context) {
    function makeAlert(){
      var alert = COSAlertWindow.new();
      alert.setMessageText('MarkUp');
-     alert.setInformativeText('Export To');
+     alert.setInformativeText('Click export to select a file directory');
      alert.addButtonWithTitle('Export');
      alert.addButtonWithTitle('Cancel');
      return alert;
