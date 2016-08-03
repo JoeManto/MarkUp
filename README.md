@@ -3,6 +3,9 @@
 <h3>Sketch 3 Plugin that allows you to export Sketch 3 layers to a .md file.(like a README.md file)</h3>
 <h3>This allows the user to get a visual look at the .md file while your making it.</h3>
 <img height = "244" src = "https://github.com/JoeManto/MarkUp/blob/master/logo_2.jpg"/>
+
+<h1>Notice :this plugin does not yet work</h1>
+
 #How it works
 - MarkUp uses sketch layer attributes and objective c methods to effectively write to a .md file.
 <img height = "213" src = "https://github.com/JoeManto/MarkUp/blob/master/logo_3.jpg"/>
@@ -22,6 +25,8 @@
 - get a working file directory.
 - improve the transfer between sketch and .md.
 - add keyboard shortcut.
+
+#changeLog
 
 #Feedback
 - Just start a new issue or make a branch.

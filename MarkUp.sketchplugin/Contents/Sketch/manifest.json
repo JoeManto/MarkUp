@@ -5,13 +5,29 @@
     "description" : "Exports Sketch 3 layers to .md",
     "authorEmail" : "Joemanto123@gmail.com",
     "author" : "Joe Manto",
-    "commands" : [
-    {
-      "script" : "script.cocoascript",
-      "handler" : "onRun",
-      "shortcut" : "",
-      "name" : "Export Layers",
-      "identifier" : "export"
-    }
-  ]
+    "commands":
+           [
+               {
+                 "script" : "script.cocoascript",
+                 "handler" : "onRun",
+                 "shortcut" : "",
+                 "name" : "Export Layers",
+                 "identifier" : "export"
+               },
+               {
+                 "script" : "makeTextField.cocoascript",
+                 "handler" : "onRun",
+                 "shortcut" : "",
+                 "name" : "Github-Text",
+                 "identifier" : "text"
+               },
+           ],
+       "menu":
+       {
+           "items":
+               [
+                   "export",
+                   "text",
+               ]
+       }
 }
