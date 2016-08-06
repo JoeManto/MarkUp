@@ -1,17 +1,24 @@
 
+@import 'lib/fileManager.cocoascript'
 function onRun(context) {
+   var script = {}
+
    var doc = context.document;
    var selectedLayers = context.selection;
    var selectedCount  = selectedLayers.count();
    var firstLayer     = selectedLayers.firstObject();
    var filePath = [NSString string];
+
    var alert;
    var options;
+
+   var data = [[NSMutableArray alloc]init];
 
    //Amount of selected layers
    if(selectedCount == 0) {
      doc.displayMessage('No layers selected');
    } else {
+     addItemToData('ss');
      //Makes alert box
      alert = makeAlert();
      //Data on what you pressed in alert box and runs alert.
@@ -19,27 +26,7 @@ function onRun(context) {
      //sorts selectedLayers by y value.
      sortDataForSelectedLayers();
      //creates file path and file and writes to that file.
-     createFile();
-   }
-
-   /**
-   * Initialize save panel, set properties, runModal on panel,
-   * @param -
-   * @return {string} return path URL if save is pressed if not return null.
-   * @return {null} if save is not pressed.
-   */
-   function getDirectoryPath(){
-     var panel = [NSSavePanel savePanel];
-     [panel setNameFieldStringValue:"MDExport.md"];
-     panel.setCanCreateDirectories(true);
-     panel.setAllowedFileTypes(["md"]);
-     panel.setCanSelectHiddenExtension(true);
-     var save = panel.runModal();
-     if (save == NSFileHandlingPanelOKButton){
-       return [[panel URL] path];
-     }else{
-       return null;
-     }
+     fileManager.createFile(options,filePath,data);
    }
 
    /**
@@ -49,37 +36,27 @@ function onRun(context) {
    * @return -
    */
    function sortDataForSelectedLayers(){
-      var data = [NSMutableArray arrayWithArray:selectedLayers];
+      var dataz = [NSMutableArray arrayWithArray:selectedLayers];
       var temp = 0;
-      for(var i = 1;i<=[data count]-1;i++){
+      for(var i = 1;i<=[dataz count]-1;i++){
           for(var z = i;z>0;z--){
-              if(data[z].frame().y()<data[z-1].frame().y()){
+              if(data[z].frame().y()<dataz[z-1].frame().y()){
                   temp = data[z];
-                  data[z] = data[z-1];
-                  data[z-1] = temp;
+                  dataz[z] = dataz[z-1];
+                  dataz[z-1] = temp;
               }
           }
       }
-      selectedLayers = data;
-      log(selectedLayers);
+      data = dataz;
+      log(data);
    }
 
-   /**
-   * Initialized "string" with NSString, looped through data appended that data to "string",
-   * (important note string must be Initialize as a NSString not a js string)
-   * Finaly wrote to file at path.
-   * @param {string} path
-   * @param {NSMutableArray} data
-   * @return -
-   */
-   function writeToFileForPathAndArray(path,data){
-      var string = [NSString string];
-      for(var i = 0;i<=[data count]-1;i++){
-        string = [string stringByAppendingString:[NSString stringWithFormat:@"#%@\n",data[i].stringValue()]];
-      }
-      [string writeToFile:path atomically:true
-      encoding:NSUTF8StringEncoding error:nil];
-   }
+
+  script.addItemToData = function(item){
+    var length = [data count];
+
+    data[length] = item;
+  }
 
    /**
    * Made a new COSAlertWindow and set properties.
@@ -112,35 +89,4 @@ function onRun(context) {
      return null;
    }
 
-   /**
-   * Looks to see if 'cancel was pressed or not', Gets newPath and sets it to the "NSString" filepath,
-   * Then writes to that file.
-   * @param -
-   * @return -
-   */
-   function createFile(){
-     if(options != null){
-       var newPath = getDirectoryPath();
-       if(newPath) {
-         filePath = [NSString stringWithFormat:@"%@",newPath];
-         writeToFileForPathAndArray(filePath,selectedLayers);
-       }
-     }
-   }
-
-
-
-   /*
-   function createSelectionBox(options, selectedItemIndex) {
-     var selectBox = NSComboBox.alloc().initWithFrame(NSMakeRect(0,0,200,25));
-     selectBox.addItemsWithObjectValues(options);
-     selectBox.selectItemAtIndex(selectedItemIndex);
-     return selectBox;
-   };
-
-   function readFromFileWithPath(path){
-      var str = NSString.stringWithContentsOfFile(path);
-      return str;
-   }
-   */
 };
