@@ -1,0 +1,64 @@
+
+var fileManager = {};
+/**
+* Looks to see if 'cancel was pressed or not', Gets newPath and sets it to the "NSString" filepath,
+* Then writes to that file.
+* @param -
+* @return -
+*/
+fileManager.createFile = function(options,objectivePath,layers){
+  if(options != null){
+    var newPath = getDirectoryPath();
+    if(newPath) {
+      objectivePath = [NSString stringWithFormat:@"%@",newPath];
+      writeToFileForPathAndArray(objectivePath,layers);
+    }
+  }
+};
+
+/**
+* Initialized "string" with NSString, looped through data appended that data to "string",
+* (important note string must be Initialize as a NSString not a js string)
+* Finaly wrote to file at path.
+* @param {string} path
+* @param {NSMutableArray} data
+* @return -
+*/
+function writeToFileForPathAndArray(path,data){
+   var string = [NSString string];
+   for(var i = 0;i<=[data count]-1;i++){
+     string = [string stringByAppendingString:[NSString stringWithFormat:@"#%@\n",data[i].stringValue()]];
+   }
+   [string writeToFile:path atomically:true
+   encoding:NSUTF8StringEncoding error:nil];
+}
+
+/**
+* Initialize save panel, set properties, runModal on panel,
+* @param -
+* @return {string} return path URL if save is pressed if not return null.
+* @return {null} if save is not pressed.
+*/
+function getDirectoryPath(){
+  var panel = [NSSavePanel savePanel];
+  [panel setNameFieldStringValue:"MDExport.md"];
+  panel.setCanCreateDirectories(true);
+  panel.setAllowedFileTypes(["md"]);
+  panel.setCanSelectHiddenExtension(true);
+  var save = panel.runModal();
+  if (save == NSFileHandlingPanelOKButton){
+    return [[panel URL] path];
+  }else{
+    return null;
+  }
+}
+
+
+
+
+/*
+function readFromFileWithPath(path){
+   var str = NSString.stringWithContentsOfFile(path);
+   return str;
+}
+*/
