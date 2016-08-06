@@ -1,0 +1,118 @@
+@import 'script.cocoascript'
+
+function onRun(context) {
+  var doc = context.document;
+
+  //holds the text layer value.
+  var text;
+  //holds the text size value.
+  var textWeight;
+  //Makes alert box
+  var alert = makeAlert();
+  //Data on what you pressed in alert box and runs alert.
+  var options = handleAlertResponse(alert, alert.runModal());
+  //if user press "ok" and not "cancel"
+  if(options != null){
+    //seting global values
+    text = options.textValue;
+    textWeight = textWeightForHeader(options.headerValue);
+    //making the text layer.
+    var layer = makeTextLayer();
+    //adding item to data to export later.
+    script.addItemToData(layer);
+  }
+  /**
+  * This function creates a text Layer based on the textWeight and centers the
+  * view on the layer.
+  * @param -
+  * @param -
+  * @return {MSTextLayer} layer
+  */
+  function makeTextLayer(){
+      var page = [doc currentPage];
+      var layer = MSTextLayer.alloc().initWithFrame_(NSMakeRect(0, 0, 100, 100))
+      layer.font = [NSFont fontWithName:@"Arial" size:textWeight];
+      layer.stringValue = text;
+      layer.fontPostscriptName = 'GithubText'
+      layer.adjustFrameToFit()
+      page.addLayers_([layer])
+      doc.currentView().centerRect_(layer.rect())
+      return layer;
+  };
+
+  /**
+  * This function takes the string headerValue and converts it to a number;
+  * @param - {string} options.headerValue
+  * @param -
+  * @return {int} textWeight
+  */
+  function textWeightForHeader(string){
+    if(string == 'Plain Text'){
+      return 8;
+    }else if (string == 'h1-html'){
+      return 26;
+    }else if (string == 'h2-html'){
+      return 23;
+    }else if (string == 'h3-html'){
+      return 20;
+    }else if (string == 'h4-html'){
+      return 17;
+    }else if (string == 'h5-html'){
+      return 14;
+    }else if (string == 'h6-html'){
+      return 11;
+    }
+  }
+
+  /**
+  * Made a new COSAlertWindow and set properties.
+  * @param -
+  * @param -
+  * @return {COSAlertWindow} alert
+  */
+  function makeAlert(){
+    var alert = COSAlertWindow.new();
+    alert.setMessageText('GitHubTextLayer');
+    alert.setInformativeText('Add data to your Text Layer');
+    var headerSelectorOptions = ['h1-html','h2-html','h3-html','h4-html','h5-html','h6-html','Plain Text'];
+    var Selection = createSelectionBox(headerSelectorOptions, 6);
+    alert.addAccessoryView(Selection);
+    alert.addTextFieldWithValue('Text Value');
+    alert.addButtonWithTitle('Make');
+    alert.addButtonWithTitle('Cancel');
+    return alert;
+  }
+
+  /**
+  * Used for global var options. handles the data in makeAlert()
+  * Data like Was "export hit" or "Cancel"
+  * @param - {COSAlertWindow} alert
+  * @param - {string} code
+  * @return {-} -
+  * @return {null} basicly if 'cancel is pressed' options becomes null that this point
+  */
+  function handleAlertResponse(alert, code) {
+    if (code == "1000") {
+      return {
+        headerValue: alert.viewAtIndex(0).stringValue(),
+        textValue:alert.viewAtIndex(1).stringValue(),
+      };
+    }
+    return null;
+  }
+
+  /**
+  * This function creates the selection box to choose from.
+  * @param - {indexValue} selectedItemIndex
+  * @param - {options} options
+  * @return {-} -
+  * @return {NSComboBox}
+  */
+  function createSelectionBox(options, selectedItemIndex) {
+    var selectBox = NSComboBox.alloc().initWithFrame(NSMakeRect(0,0,200,25));
+    selectBox.addItemsWithObjectValues(options);
+    selectBox.selectItemAtIndex(selectedItemIndex);
+    return selectBox;
+  };
+
+};
