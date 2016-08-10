@@ -1,4 +1,5 @@
-@import 'script.cocoascript'
+
+@import 'dataManager.cocoascript'
 
 function onRun(context) {
   var doc = context.document;
@@ -13,13 +14,16 @@ function onRun(context) {
   var options = handleAlertResponse(alert, alert.runModal());
   //if user press "ok" and not "cancel"
   if(options != null){
+
     //seting global values
     text = options.textValue;
     textWeight = textWeightForHeader(options.headerValue);
     //making the text layer.
     var layer = makeTextLayer();
     //adding item to data to export later.
-    script.addItemToData(layer);
+    dataManager.addData('ssdf'+githubHeaderValueForWeight(textWeight));
+    var dataz = dataManager.showData();
+    doc.displayMessage('s-'+dataz[0]);
   }
   /**
   * This function creates a text Layer based on the textWeight and centers the
@@ -61,6 +65,24 @@ function onRun(context) {
       return 14;
     }else if (string == 'h6-html'){
       return 11;
+    }
+  }
+
+  function githubHeaderValueForWeight(weight){
+    if(weight == 8 ){
+      return '';
+    }else if(weight == 11){
+      return '#';
+    }else if(weight == 14){
+      return '##';
+    }else if(weight == 17){
+      return '###';
+    }else if(weight == 20){
+      return '####';
+    }else if(weight == 23){
+      return '#####';
+    }else if(weight == 26){
+      return '######';
     }
   }
 

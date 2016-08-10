@@ -1,7 +1,9 @@
-
 @import 'lib/fileManager.cocoascript'
+@import 'dataManager.cocoascript'
+var script = {}
+
+
 function onRun(context) {
-   var script = {}
 
    var doc = context.document;
    var selectedLayers = context.selection;
@@ -12,21 +14,22 @@ function onRun(context) {
    var alert;
    var options;
 
-   var data = [[NSMutableArray alloc]init];
-
+   //dataManager.addData('ss');
+   var dataz = dataManager.showData();
+   doc.displayMessage('s-');
    //Amount of selected layers
    if(selectedCount == 0) {
+
      doc.displayMessage('No layers selected');
    } else {
-     addItemToData('ss');
      //Makes alert box
      alert = makeAlert();
      //Data on what you pressed in alert box and runs alert.
      options = handleAlertResponse(alert, alert.runModal());
      //sorts selectedLayers by y value.
-     sortDataForSelectedLayers();
+     //sortDataForSelectedLayers();
      //creates file path and file and writes to that file.
-     fileManager.createFile(options,filePath,data);
+     //fileManager.createFile(options,filePath,data);
    }
 
    /**
@@ -41,22 +44,16 @@ function onRun(context) {
       for(var i = 1;i<=[dataz count]-1;i++){
           for(var z = i;z>0;z--){
               if(data[z].frame().y()<dataz[z-1].frame().y()){
-                  temp = data[z];
+                  temp = dataz[z];
                   dataz[z] = dataz[z-1];
                   dataz[z-1] = temp;
               }
           }
       }
       data = dataz;
-      log(data);
+
    }
 
-
-  script.addItemToData = function(item){
-    var length = [data count];
-
-    data[length] = item;
-  }
 
    /**
    * Made a new COSAlertWindow and set properties.
@@ -88,5 +85,9 @@ function onRun(context) {
      }
      return null;
    }
+
+
+
+
 
 };

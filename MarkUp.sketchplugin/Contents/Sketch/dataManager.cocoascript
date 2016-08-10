@@ -1,0 +1,13 @@
+
+var data;
+
+var dataManager = {
+}
+var data = [[NSMutableArray alloc]init];
+
+dataManager.showData = function(){
+  return data;
+}
+dataManager.addData = function(item){
+   [data addObject:item];
+}

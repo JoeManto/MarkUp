@@ -27,7 +27,7 @@ fileManager.createFile = function(options,objectivePath,layers){
 function writeToFileForPathAndArray(path,data){
    var string = [NSString string];
    for(var i = 0;i<=[data count]-1;i++){
-     string = [string stringByAppendingString:[NSString stringWithFormat:@"#%@\n",data[i].stringValue()]];
+     string = [string stringByAppendingString:[NSString stringWithFormat:@"#%@\n",data[i]]];
    }
    [string writeToFile:path atomically:true
    encoding:NSUTF8StringEncoding error:nil];
