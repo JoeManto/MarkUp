@@ -1,4 +1,4 @@
-
+@import 'script.cocoascript'
 @import 'dataManager.cocoascript'
 
 function onRun(context) {
@@ -15,15 +15,23 @@ function onRun(context) {
   //if user press "ok" and not "cancel"
   if(options != null){
 
+
+    var t = dataManager.returnTest();
+    doc.displayMessage('lsm'+t);
+    //[ds addObject:'rippppp'];
+    //[ds addObject:'plzzzzz'];
+    //script.setData(ds);
+  //  var t = [NSMutableArray arrayWithArray:];
+  //  [t addObject:'poop'];
+  //  doc.displayMessage('lsm'+t[1]);
+
     //seting global values
     text = options.textValue;
     textWeight = textWeightForHeader(options.headerValue);
     //making the text layer.
     var layer = makeTextLayer();
     //adding item to data to export later.
-    dataManager.addData('ssdf'+githubHeaderValueForWeight(textWeight));
-    var dataz = dataManager.showData();
-    doc.displayMessage('s-'+dataz[0]);
+
   }
   /**
   * This function creates a text Layer based on the textWeight and centers the

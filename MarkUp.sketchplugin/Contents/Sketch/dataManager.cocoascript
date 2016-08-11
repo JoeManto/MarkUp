@@ -1,8 +1,8 @@
-
-var data;
+@import 'script.cocoascript'
 
 var dataManager = {
 }
+var test = 'joe';
 var data = [[NSMutableArray alloc]init];
 
 dataManager.showData = function(){
@@ -10,4 +10,10 @@ dataManager.showData = function(){
 }
 dataManager.addData = function(item){
    [data addObject:item];
+}
+dataManager.testMethod = function(){
+  test = 'random';
+}
+dataManager.returnTest = function(){
+  return test;
 }

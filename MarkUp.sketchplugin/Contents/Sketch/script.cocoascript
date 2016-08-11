@@ -1,6 +1,23 @@
 @import 'lib/fileManager.cocoascript'
 @import 'dataManager.cocoascript'
-var script = {}
+var script = {
+
+}
+
+var data = [[NSMutableArray alloc]init];
+[data addObject:'2chains'];
+var test = 'joe';
+script.getData = function(){
+  return data;
+}
+
+script.addData = function(item){
+  test = item;
+}
+script.setData = function(item){
+  data = [NSMutableArray arrayWithArray:item];
+}
+
 
 
 function onRun(context) {
@@ -14,15 +31,20 @@ function onRun(context) {
    var alert;
    var options;
 
+   //data[1] = 'ssssdfsdfsdf';
    //dataManager.addData('ss');
-   var dataz = dataManager.showData();
-   doc.displayMessage('s-');
+   //var dataz = dataManager.showData();
+
    //Amount of selected layers
    if(selectedCount == 0) {
 
      doc.displayMessage('No layers selected');
    } else {
      //Makes alert box
+     dataManager.testMethod();
+     var u = dataManager.returnTest();
+     doc.displayMessage('d'+u);
+
      alert = makeAlert();
      //Data on what you pressed in alert box and runs alert.
      options = handleAlertResponse(alert, alert.runModal());
