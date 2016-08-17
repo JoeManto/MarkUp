@@ -1,24 +1,4 @@
 @import 'lib/fileManager.cocoascript'
-@import 'dataManager.cocoascript'
-var script = {
-
-}
-
-var data = [[NSMutableArray alloc]init];
-[data addObject:'2chains'];
-var test = 'joe';
-script.getData = function(){
-  return data;
-}
-
-script.addData = function(item){
-  test = item;
-}
-script.setData = function(item){
-  data = [NSMutableArray arrayWithArray:item];
-}
-
-
 
 function onRun(context) {
 
@@ -27,32 +7,27 @@ function onRun(context) {
    var selectedCount  = selectedLayers.count();
    var firstLayer     = selectedLayers.firstObject();
    var filePath = [NSString string];
+   var command = context.command;
 
    var alert;
    var options;
 
-   //data[1] = 'ssssdfsdfsdf';
-   //dataManager.addData('ss');
-   //var dataz = dataManager.showData();
-
    //Amount of selected layers
    if(selectedCount == 0) {
-
      doc.displayMessage('No layers selected');
    } else {
+     var layer = selectedLayers[0];
      //Makes alert box
-     dataManager.testMethod();
-     var u = dataManager.returnTest();
-     doc.displayMessage('d'+u);
-
      alert = makeAlert();
      //Data on what you pressed in alert box and runs alert.
      options = handleAlertResponse(alert, alert.runModal());
      //sorts selectedLayers by y value.
-     //sortDataForSelectedLayers();
+     sortDataForSelectedLayers();
      //creates file path and file and writes to that file.
-     //fileManager.createFile(options,filePath,data);
+     fileManager.createFile(options,selectedLayers,command);
+
    }
+
 
    /**
    * Initialize with selectedLayers array run insertion sort on the data.(1,2,3,4,5)
@@ -65,15 +40,15 @@ function onRun(context) {
       var temp = 0;
       for(var i = 1;i<=[dataz count]-1;i++){
           for(var z = i;z>0;z--){
-              if(data[z].frame().y()<dataz[z-1].frame().y()){
+              if(dataz[z].frame().y()<dataz[z-1].frame().y()){
                   temp = dataz[z];
                   dataz[z] = dataz[z-1];
                   dataz[z-1] = temp;
               }
           }
       }
-      data = dataz;
-
+      selectedLayers = dataz;
+      doc.displayMessage([command valueForKey:"0" onLayer:selectedLayers[0]]);
    }
 
 
@@ -107,9 +82,6 @@ function onRun(context) {
      }
      return null;
    }
-
-
-
 
 
 };

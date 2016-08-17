@@ -1,9 +1,8 @@
 @import 'script.cocoascript'
-@import 'dataManager.cocoascript'
 
 function onRun(context) {
   var doc = context.document;
-
+  var command = context.command;
   //holds the text layer value.
   var text;
   //holds the text size value.
@@ -16,21 +15,14 @@ function onRun(context) {
   if(options != null){
 
 
-    var t = dataManager.returnTest();
-    doc.displayMessage('lsm'+t);
-    //[ds addObject:'rippppp'];
-    //[ds addObject:'plzzzzz'];
-    //script.setData(ds);
-  //  var t = [NSMutableArray arrayWithArray:];
-  //  [t addObject:'poop'];
-  //  doc.displayMessage('lsm'+t[1]);
-
     //seting global values
     text = options.textValue;
     textWeight = textWeightForHeader(options.headerValue);
     //making the text layer.
     var layer = makeTextLayer();
     //adding item to data to export later.
+    [command setValue:mdFormatFor(textWeight,text) forKey:"0" onLayer:layer];
+    doc.displayMessage('s'+[command valueForKey:"0" onLayer:layer]);
 
   }
   /**
@@ -49,6 +41,7 @@ function onRun(context) {
       layer.adjustFrameToFit()
       page.addLayers_([layer])
       doc.currentView().centerRect_(layer.rect())
+      layer.identifer = '0';
       return layer;
   };
 
@@ -92,6 +85,12 @@ function onRun(context) {
     }else if(weight == 26){
       return '######';
     }
+  }
+
+  function mdFormatFor(w,t){
+    var s = '';
+    s = githubHeaderValueForWeight(w)+t;
+    return s;
   }
 
   /**

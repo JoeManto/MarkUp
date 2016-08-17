@@ -1,21 +1,22 @@
 
 var fileManager = {};
+var newPath;
+var command;
 /**
 * Looks to see if 'cancel was pressed or not', Gets newPath and sets it to the "NSString" filepath,
 * Then writes to that file.
 * @param -
 * @return -
 */
-fileManager.createFile = function(options,objectivePath,layers){
+fileManager.createFile = function(options,layers,com){
   if(options != null){
-    var newPath = getDirectoryPath();
+    newPath = getDirectoryPath();
     if(newPath) {
-      objectivePath = [NSString stringWithFormat:@"%@",newPath];
-      writeToFileForPathAndArray(objectivePath,layers);
+      command = com;
+      writeToFileForPathAndArray(newPath,layers);
     }
   }
 };
-
 /**
 * Initialized "string" with NSString, looped through data appended that data to "string",
 * (important note string must be Initialize as a NSString not a js string)
@@ -27,10 +28,22 @@ fileManager.createFile = function(options,objectivePath,layers){
 function writeToFileForPathAndArray(path,data){
    var string = [NSString string];
    for(var i = 0;i<=[data count]-1;i++){
-     string = [string stringByAppendingString:[NSString stringWithFormat:@"#%@\n",data[i]]];
+     string = [string stringByAppendingString:[NSString stringWithFormat:@"%@\n",addDataEntryForID(data[i],command)]];
    }
    [string writeToFile:path atomically:true
    encoding:NSUTF8StringEncoding error:nil];
+}
+
+fileManager.appendedFileWithString = function(str){
+  var string = readFromFileWithPath(newPath);
+  string = [string stringByAppendingString:[NSString stringWithFormat:@"\n%@",str]];
+  [string writeToFile:newPath atomically:true
+  encoding:NSUTF8StringEncoding error:nil];
+}
+
+function readFromFileWithPath(path){
+   var str = NSString.stringWithContentsOfFile(path);
+   return str;
 }
 
 /**
@@ -53,7 +66,12 @@ function getDirectoryPath(){
   }
 }
 
+function addDataEntryForID(entry,com){
 
+    s = ''+[com valueForKey:"0" onLayer:entry];
+    return s;
+
+}
 
 
 /*
