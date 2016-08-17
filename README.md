@@ -27,6 +27,8 @@
 - add keyboard shortcut.
 
 #changeLog
+- Added working textField button v1.0 with only textWeight and textValue.
+- Moved to MSPluginCommand to handle the data between classes.
 
 #Feedback
 - Just start a new issue or make a branch.
