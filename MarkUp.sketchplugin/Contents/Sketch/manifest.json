@@ -21,6 +21,13 @@
                  "name" : "Github-Text",
                  "identifier" : "text"
                },
+               {
+                 "script" : "ListField.cocoascript",
+                 "handler" : "onRun",
+                 "shortcut" : "",
+                 "name" : "Github-List",
+                 "identifier" : "list"
+               },
            ],
        "menu":
        {
@@ -28,6 +35,7 @@
                [
                    "export",
                    "text",
+                   "list",
                ]
        }
 }

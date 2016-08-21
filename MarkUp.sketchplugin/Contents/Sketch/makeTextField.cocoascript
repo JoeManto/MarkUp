@@ -13,8 +13,6 @@ function onRun(context) {
   var options = handleAlertResponse(alert, alert.runModal());
   //if user press "ok" and not "cancel"
   if(options != null){
-
-
     //seting global values
     text = options.textValue;
     textWeight = textWeightForHeader(options.headerValue);
@@ -22,8 +20,6 @@ function onRun(context) {
     var layer = makeTextLayer();
     //adding item to data to export later.
     [command setValue:mdFormatFor(textWeight,text) forKey:"0" onLayer:layer];
-    doc.displayMessage('s'+[command valueForKey:"0" onLayer:layer]);
-
   }
   /**
   * This function creates a text Layer based on the textWeight and centers the
@@ -33,16 +29,35 @@ function onRun(context) {
   * @return {MSTextLayer} layer
   */
   function makeTextLayer(){
+      var groupArray = [[NSMutableArray alloc]init];
       var page = [doc currentPage];
-      var layer = MSTextLayer.alloc().initWithFrame_(NSMakeRect(0, 0, 100, 100))
-      layer.font = [NSFont fontWithName:@"Arial" size:textWeight];
-      layer.stringValue = text;
-      layer.fontPostscriptName = 'GithubText'
-      layer.adjustFrameToFit()
-      page.addLayers_([layer])
-      doc.currentView().centerRect_(layer.rect())
-      layer.identifer = '0';
-      return layer;
+      var Textlayer = MSTextLayer.alloc().initWithFrame_(NSMakeRect(0, 0, 100, 100))
+      if(textWeight != 15){
+        Textlayer.font = [NSFont fontWithName:@"Arial Bold" size:textWeight];
+      }else{
+        Textlayer.font = [NSFont fontWithName:@"Arial" size:textWeight];
+      }
+      Textlayer.stringValue = text;
+      Textlayer.fontPostscriptName = 'GithubText'
+      Textlayer.adjustFrameToFit()
+      Textlayer.identifer = '0';
+      doc.currentView().centerRect_(Textlayer.rect())
+      [groupArray addObject:Textlayer];
+      if(textWeight == 30 || textWeight == 23){
+        var rect = MSRectangleShape.alloc().init();
+        rect.frame = MSRect.rectWithRect(NSMakeRect(0, 40, 640, 1));
+        var shapeGroup = MSShapeGroup.shapeWithPath(rect);
+        shapeGroup.style().addStylePartOfType(0);
+        fill = shapeGroup.style().fills().firstObject();
+        fill.color = MSColor.colorWithRed_green_blue_alpha(214/255,214/255,214/255,1.0)
+        [groupArray addObject:shapeGroup];
+      }
+      var group = MSLayerGroup.alloc().init();
+      [group addLayers:groupArray];
+      [group setName:'GitHubText-Layer']
+      [group setIsLocked:false];
+      page.addLayers_([group]);
+      return Textlayer;
   };
 
   /**
@@ -53,9 +68,9 @@ function onRun(context) {
   */
   function textWeightForHeader(string){
     if(string == 'Plain Text'){
-      return 8;
+      return 15;
     }else if (string == 'h1-html'){
-      return 26;
+      return 30;
     }else if (string == 'h2-html'){
       return 23;
     }else if (string == 'h3-html'){
@@ -65,7 +80,7 @@ function onRun(context) {
     }else if (string == 'h5-html'){
       return 14;
     }else if (string == 'h6-html'){
-      return 11;
+      return 13;
     }
   }
 

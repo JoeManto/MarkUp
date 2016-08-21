@@ -1,0 +1,159 @@
+@import 'script.cocoascript'
+
+function onRun(context) {
+  var doc = context.document;
+  var command = context.command;
+
+  //Makes alert box
+  var alert = makeAlert();
+  //Data on what you pressed in alert box and runs alert.
+  var options = handleAlertResponse(alert, alert.runModal());
+
+  var data;
+
+  var textField;
+  var isOrdered = false;
+
+
+  function MakeList(length,type){
+
+  }
+
+
+
+
+
+
+  /*********************************alert
+
+  /**
+  * Made a new COSAlertWindow and set properties.
+  * @param -
+  * @param -
+  * @return {COSAlertWindow} alert
+  */
+  function makeAlert(){
+  var alert = COSAlertWindow.new();
+  alert.setMessageText('GitHub ListField');
+  alert.setInformativeText('Ordered or Unordered');
+  var OrderSelectorOptions = ['Ordered','Unordered'];
+  var Selection = createSelectionBox(OrderSelectorOptions, 0);
+  alert.addAccessoryView(createDataEntryField());
+  alert.addButtonWithTitle('Make');
+  alert.addButtonWithTitle('Cancel');
+  var resetButton = alert.addButtonWithTitle('reset');
+  [resetButton setCOSJSTargetFunction:function(){
+    resetData();
+  }];
+
+  return alert;
+  }
+
+  /**
+  * Used for global var options. handles the data in makeAlert()
+  * Data like Was "export hit" or "Cancel"
+  * @param - {COSAlertWindow} alert
+  * @param - {string} code
+  * @return {-} -
+  * @return {null} basicly if 'cancel is pressed' options becomes null that this point
+  */
+  function handleAlertResponse(alert, code) {
+  if (code == "1000") {
+    updateDataEntryField(textField);
+    if(data != nil){
+        log(data);
+    }else{
+    doc.displayMessage('No list data found');
+    }
+  }
+  if(code == "1001"){
+    resetData();
+  }
+  return null;
+  }
+
+  /**
+  * This function creates the selection box to choose from.
+  * @param - {indexValue} selectedItemIndex
+  * @param - {options} options
+  * @return {-} -
+  * @return {NSComboBox}
+  */
+  function createSelectionBox(options, selectedItemIndex) {
+  var selectBox = NSComboBox.alloc().initWithFrame(NSMakeRect(0,0,200,25));
+  selectBox.addItemsWithObjectValues(options);
+  selectBox.selectItemAtIndex(selectedItemIndex);
+  return selectBox;
+  };
+
+  function createDataEntryField(){
+
+    var view = [[NSView alloc]initWithFrame:CGRectMake(0, 0, 400,100)];
+    textField = [[NSTextField alloc]initWithFrame:CGRectMake(0, 30, 250, 20)];
+
+    [[textField cell] setPlaceholderString:@"type data entry"];
+    [textField setBezeled:true];
+    [textField setSelectable:true];
+
+    var addData = [[NSButton alloc]initWithFrame:CGRectMake(260,19,40,40)];
+    [addData setTitle: @"+"];
+    [addData setButtonType:NSMomentaryLightButton];
+    [addData setBezelStyle:NSRoundedBezelStyle];
+    [addData setCOSJSTargetFunction:function(){
+        updateDataEntryField(textField);
+    }];
+
+    var type = [[NSButton alloc]initWithFrame:CGRectMake(0,73,100,40)];
+    [type setTitle: @"Ordered List?"];
+    [type setButtonType:NSSwitchButton]
+    [type setBezelStyle:NSRoundedBezelStyle];
+    [type setCOSJSTargetFunction:function(){
+        markOrdered(type);
+    }];
+    [view addSubview:type];
+    [view addSubview:textField];
+    [view addSubview:addData];
+
+    return view;
+  }
+
+  function resetData(){
+  [textField setStringValue:@""];
+  [[textField cell] setPlaceholderString:@"~All data has been reset"];
+  data = [[NSMutableArray alloc]init];
+  }
+
+  function updateDataEntryField(textField){
+
+    if(isFieldFilled([textField stringValue])){
+         if(data == null){
+            data = [[NSMutableArray alloc]init];
+         }
+        [[textField cell] setPlaceholderString:@"type data entry"];
+        [data addObject:[textField stringValue]];
+        [textField setStringValue:@""];
+    }
+  }
+
+  function isFieldFilled(s){
+
+    var length = [s length];
+    if(length == 0)return false;
+    for(var i = 0;i<=length-1;i++){
+        log([s characterAtIndex:i]);
+        if([s characterAtIndex:i] < 128 && [s characterAtIndex:i] != 32){
+             return true;
+        }
+    }
+
+  }
+
+  function markOrdered(button){
+    if ([button state] == NSOnState) {
+        isOrdered = true;
+    }else{
+        isOrdered = false;
+    }
+  }
+
+}
