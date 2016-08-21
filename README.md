@@ -18,6 +18,7 @@
 <h5>----OR----</h5>
 - Download and open MarkUp-master folder.
 - Double click MarkUp.sketchplugin (while sketch is open).
+
 #Notice
 - plugin is not finished or even first commit.
 
