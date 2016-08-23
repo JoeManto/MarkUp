@@ -1,8 +1,9 @@
-@import 'script.cocoascript'
+@import 'lib/util.cocoascript'
 
 function onRun(context) {
   var doc = context.document;
   var command = context.command;
+  var page = [doc currentPage];
 
   //Makes alert box
   var alert = makeAlert();
@@ -15,10 +16,61 @@ function onRun(context) {
   var isOrdered = false;
 
 
-  function MakeList(length,type){
+  function makeList(){
+     var layer;
+     var dot;
+     var x = 100;
+     var y = 100;
+     weight = 20;
+     for(var i = 0;i<=[data count]-1;i++){
+
+       if(isOrdered){
+        var str = ''+i;
+        data[i] = [NSString stringWithFormat:@"%@.%@",str,data[i]];
+        layer = layerUtil.makeTextLayer(data[i],weight,x,y,0);
+       }else{
+         layer = layerUtil.makeTextLayer(data[i],weight,x,y,0);
+         dot = makeOpenDot(x-15,y+weight-12,weight-13);
+         page.addLayers_([dot]);
+       }
+       page.addLayers_([layer]);
+       y+=(weight+30);
+     }
 
   }
 
+  function makeText(text,weight,x,y){
+    var layer = MSTextLayer.alloc().initWithFrame_(NSMakeRect(x, y, 100, 100))
+    layer.font = [NSFont fontWithName:@"Arial" size:weight];
+    layer.stringValue = text;
+    layer.fontPostscriptName = 'GithubText';
+    layer.adjustFrameToFit();
+    return layer;
+  }
+
+
+  function makeOpenDot(x,y,weight){
+      var ovalShape = MSOvalShape.alloc().init();
+      ovalShape.frame = MSRect.rectWithRect(NSMakeRect(x,y,weight,weight));
+      var shapeGroup=MSShapeGroup.shapeWithPath(ovalShape);
+      shapeGroup.style().addStylePartOfType(1);
+      shapeGroup.isBorderEnabled = true;
+      var fill = shapeGroup.style().borders().firstObject();
+      fill.color = MSColor.colorWithRed_green_blue_alpha(0/255,0/255,0/255,1.0)
+
+     return shapeGroup;
+  }
+
+  function makeDot(x,y,weight){
+      var ovalShape = MSOvalShape.alloc().init();
+      ovalShape.frame = MSRect.rectWithRect(NSMakeRect(x,y,weight,weight));
+      var shapeGroup=MSShapeGroup.shapeWithPath(ovalShape);
+      shapeGroup.style().addStylePartOfType(0);
+      var fill = shapeGroup.style().fills().firstObject();
+      fill.color = MSColor.colorWithRed_green_blue_alpha(0/255,0/255,0/255,1.0)
+
+     return shapeGroup;
+  }
 
 
 
@@ -33,20 +85,16 @@ function onRun(context) {
   * @return {COSAlertWindow} alert
   */
   function makeAlert(){
-  var alert = COSAlertWindow.new();
-  alert.setMessageText('GitHub ListField');
-  alert.setInformativeText('Ordered or Unordered');
-  var OrderSelectorOptions = ['Ordered','Unordered'];
-  var Selection = createSelectionBox(OrderSelectorOptions, 0);
-  alert.addAccessoryView(createDataEntryField());
-  alert.addButtonWithTitle('Make');
-  alert.addButtonWithTitle('Cancel');
-  var resetButton = alert.addButtonWithTitle('reset');
-  [resetButton setCOSJSTargetFunction:function(){
-    resetData();
-  }];
-
-  return alert;
+    var alert = COSAlertWindow.new();
+    alert.setMessageText('GitHub ListField');
+    alert.addAccessoryView(createDataEntryField());
+    alert.addButtonWithTitle('Make');
+    alert.addButtonWithTitle('Cancel');
+    var resetButton = alert.addButtonWithTitle('reset');
+    [resetButton setCOSJSTargetFunction:function(){
+      resetData();
+    }];
+    return alert;
   }
 
   /**
@@ -61,7 +109,8 @@ function onRun(context) {
   if (code == "1000") {
     updateDataEntryField(textField);
     if(data != nil){
-        log(data);
+        //doc.displayMessage(data[0]);
+        makeList();
     }else{
     doc.displayMessage('No list data found');
     }
@@ -72,19 +121,6 @@ function onRun(context) {
   return null;
   }
 
-  /**
-  * This function creates the selection box to choose from.
-  * @param - {indexValue} selectedItemIndex
-  * @param - {options} options
-  * @return {-} -
-  * @return {NSComboBox}
-  */
-  function createSelectionBox(options, selectedItemIndex) {
-  var selectBox = NSComboBox.alloc().initWithFrame(NSMakeRect(0,0,200,25));
-  selectBox.addItemsWithObjectValues(options);
-  selectBox.selectItemAtIndex(selectedItemIndex);
-  return selectBox;
-  };
 
   function createDataEntryField(){
 
@@ -118,35 +154,23 @@ function onRun(context) {
   }
 
   function resetData(){
-  [textField setStringValue:@""];
-  [[textField cell] setPlaceholderString:@"~All data has been reset"];
-  data = [[NSMutableArray alloc]init];
+    [textField setStringValue:@""];
+    [[textField cell] setPlaceholderString:@"~All data has been reset"];
+    data = [[NSMutableArray alloc]init];
   }
 
   function updateDataEntryField(textField){
 
-    if(isFieldFilled([textField stringValue])){
+    if(stringUtil.isFieldFilled([textField stringValue])){
          if(data == null){
             data = [[NSMutableArray alloc]init];
-         }
+    }
         [[textField cell] setPlaceholderString:@"type data entry"];
         [data addObject:[textField stringValue]];
         [textField setStringValue:@""];
     }
   }
 
-  function isFieldFilled(s){
-
-    var length = [s length];
-    if(length == 0)return false;
-    for(var i = 0;i<=length-1;i++){
-        log([s characterAtIndex:i]);
-        if([s characterAtIndex:i] < 128 && [s characterAtIndex:i] != 32){
-             return true;
-        }
-    }
-
-  }
 
   function markOrdered(button){
     if ([button state] == NSOnState) {

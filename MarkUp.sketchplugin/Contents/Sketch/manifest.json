@@ -34,6 +34,7 @@
            "items":
                [
                    "export",
+                    "-",
                    "text",
                    "list",
                ]

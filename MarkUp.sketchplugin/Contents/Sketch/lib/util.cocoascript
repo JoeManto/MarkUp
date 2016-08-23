@@ -1,0 +1,36 @@
+var layerUtil = {
+    makeTextLayer: function(text,weight,x,y,type){
+      var layer = MSTextLayer.alloc().initWithFrame_(NSMakeRect(x, y, 100, 100))
+      layer.font = [NSFont fontWithName:@"Arial" size:weight];
+      layer.stringValue = text;
+      layer.fontPostscriptName = 'GithubText';
+      layer.adjustFrameToFit();
+      return layer;
+    },
+
+}
+
+var stringUtil = {
+  NSStringToNSNumber: function(string){
+    var nsString = [NSString stringWithFormat:@"%@",string];
+    var f = [[NSNumberFormatter alloc] init];
+    f.numberStyle = NSNumberFormatterDecimalStyle;
+    var myNumber = [f numberFromString:[NSString stringWithFormat:@"%@",nsString]];
+    if(myNumber != null){
+      myNumber = [myNumber intValue];
+      return myNumber;
+    }else{
+      return -1;
+    }
+  },
+  isFieldFilled: function(s){
+    var length = [s length];
+    if(length == 0)return false;
+    for(var i = 0;i<=length-1;i++){
+        log([s characterAtIndex:i]);
+        if([s characterAtIndex:i] < 128 && [s characterAtIndex:i] != 32){
+             return true;
+        }
+    }
+  },
+}
