@@ -1,0 +1,17 @@
+
+function onRun(context) {
+  var doc = context.document;
+  var artboard = MSArtboardGroup.new()
+
+  makeArtboard(0,0,640,700);
+
+  function makeArtboard(x,y,w,h){
+    artboardFrame.setX(x)
+    artboardFrame.setY(y)
+    artboardFrame.setWidth(w)
+    artboardFrame.setHeight(h)
+    artboard.hasBackgroundColor = false;
+    [artboard setName:@"GitHub-MarkDown-ArtBoard"];
+ };
+
+}
