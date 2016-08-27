@@ -15,7 +15,7 @@
                  "identifier" : "export"
                },
                {
-                 "script" : "makeTextField.cocoascript",
+                 "script" : "textField.cocoascript",
                  "handler" : "onRun",
                  "shortcut" : "",
                  "name" : "Github-Text",

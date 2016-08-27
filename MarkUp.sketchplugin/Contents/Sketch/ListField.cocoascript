@@ -94,7 +94,9 @@ function onRun(context) {
   * @return {null} basicly if 'cancel is pressed' options becomes null that this point
   */
   function handleAlertResponse(alert, code) {
+
   if (code == "1000") {
+    if(artboard == null)doc.displayMessage('Insert a artboard : Markup > Github-artboard');return;
     updateDataEntryField(textField);
     if(data != nil){
         //doc.displayMessage(data[0]);

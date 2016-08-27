@@ -33,7 +33,7 @@ function onRun(context) {
       var groupArray = [[NSMutableArray alloc]init];
       var page = [doc currentPage];
       var artboard = doc.currentPage().currentArtboard()
-      if(artboard == null)doc.displayMessage('Insert a artboard : Markup > Github-artboard');return;
+      //if(artboard == null)doc.displayMessage('Insert a artboard : Markup > Github-artboard');return;
 
       var Textlayer = layerUtil.makeTextLayer(text,textWeight,artboard.frame().width()/2,artboard.frame().height()/2 ,0);
       if(textWeight != 15){
