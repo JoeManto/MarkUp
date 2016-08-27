@@ -33,6 +33,7 @@ function onRun(context) {
       var groupArray = [[NSMutableArray alloc]init];
       var page = [doc currentPage];
       var artboard = doc.currentPage().currentArtboard()
+      if(artboard == null)doc.displayMessage('Insert a artboard : Markup > Github-artboard');return;
 
       var Textlayer = layerUtil.makeTextLayer(text,textWeight,artboard.frame().width()/2,artboard.frame().height()/2 ,0);
       if(textWeight != 15){
@@ -42,7 +43,7 @@ function onRun(context) {
       }
       Textlayer.identifer = '0';
       [groupArray addObject:Textlayer];
-      
+
       if(textWeight == 30 || textWeight == 23){
         var rect = MSRectangleShape.alloc().init();
         rect.frame = MSRect.rectWithRect(NSMakeRect(artboard.frame().width()/2,(artboard.frame().height()/2)+40, 640, 1));
@@ -137,7 +138,9 @@ function onRun(context) {
   * @return {null} basicly if 'cancel is pressed' options becomes null that this point
   */
   function handleAlertResponse(alert, code) {
+
     if (code == "1000") {
+
       return {
         headerValue: alert.viewAtIndex(0).stringValue(),
         textValue:alert.viewAtIndex(1).stringValue(),
