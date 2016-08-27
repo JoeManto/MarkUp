@@ -4,7 +4,8 @@ function onRun(context) {
   var doc = context.document;
   var command = context.command;
   var page = [doc currentPage];
-  var artboard = doc.currentPage().currentArtboard()
+  var artboard = doc.currentPage().currentArtboard();
+  if(artboard == null){doc.displayMessage('Insert a artboard : Markup > Github-artboard');return;}
 
   //Makes alert box
   var alert = makeAlert();
@@ -96,7 +97,6 @@ function onRun(context) {
   function handleAlertResponse(alert, code) {
 
   if (code == "1000") {
-    if(artboard == null)doc.displayMessage('Insert a artboard : Markup > Github-artboard');return;
     updateDataEntryField(textField);
     if(data != nil){
         //doc.displayMessage(data[0]);
