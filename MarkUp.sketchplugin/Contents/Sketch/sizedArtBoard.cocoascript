@@ -1,9 +1,12 @@
 
 function onRun(context) {
   var doc = context.document;
-  var artboard = MSArtboardGroup.new()
+  var artboard = MSArtboardGroup.new();
+  var artboardFrame = artboard.frame();
+  makeArtboard(0,0,730,700);
 
-  makeArtboard(0,0,640,700);
+  doc.currentPage().addLayers([artboard]);
+  doc.currentView().centerRect_(artboard.rect())
 
   function makeArtboard(x,y,w,h){
     artboardFrame.setX(x)
@@ -11,7 +14,7 @@ function onRun(context) {
     artboardFrame.setWidth(w)
     artboardFrame.setHeight(h)
     artboard.hasBackgroundColor = false;
-    [artboard setName:@"GitHub-MarkDown-ArtBoard"];
+    [artboard setName:@"GitHub-MarkDown-Artboard"];
  };
 
 }

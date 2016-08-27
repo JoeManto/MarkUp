@@ -4,24 +4,22 @@ function onRun(context) {
   var doc = context.document;
   var command = context.command;
   var page = [doc currentPage];
+  var artboard = doc.currentPage().currentArtboard()
 
   //Makes alert box
   var alert = makeAlert();
   //Data on what you pressed in alert box and runs alert.
   var options = handleAlertResponse(alert, alert.runModal());
-
   var data;
-
   var textField;
   var isOrdered = false;
-
 
   function makeList(){
      var layer;
      var dot;
      var x = 100;
      var y = 100;
-     weight = 20;
+     weight = 15;
      for(var i = 0;i<=[data count]-1;i++){
 
        if(isOrdered){
@@ -30,24 +28,14 @@ function onRun(context) {
         layer = layerUtil.makeTextLayer(data[i],weight,x,y,0);
        }else{
          layer = layerUtil.makeTextLayer(data[i],weight,x,y,0);
-         dot = makeOpenDot(x-15,y+weight-12,weight-13);
-         page.addLayers_([dot]);
+         dot = makeOpenDot(x-15,y+weight-8,weight-10);
+         artboard.addLayers_([dot]);
        }
-       page.addLayers_([layer]);
+        artboard.addLayers_([layer]);
        y+=(weight+30);
      }
-
+     //doc.currentView().centerRect_(group.rect())
   }
-
-  function makeText(text,weight,x,y){
-    var layer = MSTextLayer.alloc().initWithFrame_(NSMakeRect(x, y, 100, 100))
-    layer.font = [NSFont fontWithName:@"Arial" size:weight];
-    layer.stringValue = text;
-    layer.fontPostscriptName = 'GithubText';
-    layer.adjustFrameToFit();
-    return layer;
-  }
-
 
   function makeOpenDot(x,y,weight){
       var ovalShape = MSOvalShape.alloc().init();

@@ -28,12 +28,20 @@
                  "name" : "Github-List",
                  "identifier" : "list"
                },
+               {
+                 "script" : "sizedArtBoard.cocoascript",
+                 "handler" : "onRun",
+                 "shortcut" : "",
+                 "name" : "Github-artboard",
+                 "identifier" : "art"
+               },
            ],
        "menu":
        {
            "items":
                [
                    "export",
+                   "art",
                     "-",
                    "text",
                    "list",
