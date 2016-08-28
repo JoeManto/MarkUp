@@ -28,7 +28,6 @@ function onRun(context) {
   * This function creates a text Layer based on the textWeight and centers the
   * view on the layer.
   * @param -
-  * @param -
   * @return {MSTextLayer} layer
   */
   function makeTextLayer(){
@@ -65,7 +64,6 @@ function onRun(context) {
   /**
   * This function takes the string headerValue and converts it to a number;
   * @param - {string} options.headerValue
-  * @param -
   * @return {int} textWeight
   */
   function textWeightForHeader(string){
@@ -85,7 +83,11 @@ function onRun(context) {
       return 13;
     }
   }
-
+  /**
+  * return the header format for the text weight.
+  * @param - {int} weight
+  * @return {string} header
+  */
   function githubHeaderValueForWeight(weight){
     if(weight == 8 ){
       return '';
@@ -103,7 +105,12 @@ function onRun(context) {
       return '######';
     }
   }
-
+  /**
+  * This function add the formated header value to the plain text;
+  * @param - {int} weight
+  * @param - {String} text
+  * @return {String} formatedText
+  */
   function mdFormatFor(w,t){
     var s = '';
     s = githubHeaderValueForWeight(w)+t;
@@ -111,7 +118,7 @@ function onRun(context) {
   }
 
   /**
-  * Made a new COSAlertWindow and set properties.
+  * Made a new COSAlertWindow and sets properties.
   * @param -
   * @param -
   * @return {COSAlertWindow} alert

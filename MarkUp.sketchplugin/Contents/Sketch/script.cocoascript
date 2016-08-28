@@ -7,9 +7,12 @@ function onRun(context) {
    var selectedCount  = selectedLayers.count();
    var firstLayer     = selectedLayers.firstObject();
    var filePath = [NSString string];
+   //MSPluginCommand
    var command = context.command;
 
+   //alert window
    var alert;
+   //data from alert
    var options;
 
    //Amount of selected layers
@@ -30,8 +33,8 @@ function onRun(context) {
 
 
    /**
-   * Initialize with selectedLayers array run insertion sort on the data.(1,2,3,4,5)
-     set selectedLayers to the new sorted data set.
+   * Initialized with selectedLayers array ran insertion sort on the data.(1,2,3,4,5)
+     sets selectedLayers to the new sorted data set.
    * @param -
    * @return -
    */
@@ -48,7 +51,6 @@ function onRun(context) {
           }
       }
       selectedLayers = dataz;
-      doc.displayMessage([command valueForKey:"0" onLayer:selectedLayers[0]]);
    }
 
 

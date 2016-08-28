@@ -1,11 +1,15 @@
 
 var fileManager = {};
+//filePath
 var newPath;
+//Ablity to add data to layers.
 var command;
 /**
-* Looks to see if 'cancel was pressed or not', Gets newPath and sets it to the "NSString" filepath,
-* Then writes to that file.
-* @param -
+* creates the slected path then creates that
+ file and writes to that file with the selectedLayers.
+* @param {COSAlertWindow} options
+* @param {NSArray} layers
+* @param {MSPluginCommand} command
 * @return -
 */
 fileManager.createFile = function(options,layers,com){
@@ -20,7 +24,7 @@ fileManager.createFile = function(options,layers,com){
 /**
 * Initialized "string" with NSString, looped through data appended that data to "string",
 * (important note string must be Initialize as a NSString not a js string)
-* Finaly wrote to file at path.
+* Finaly writes to file at path.
 * @param {string} path
 * @param {NSMutableArray} data
 * @return -
@@ -32,18 +36,6 @@ function writeToFileForPathAndArray(path,data){
    }
    [string writeToFile:path atomically:true
    encoding:NSUTF8StringEncoding error:nil];
-}
-
-fileManager.appendedFileWithString = function(str){
-  var string = readFromFileWithPath(newPath);
-  string = [string stringByAppendingString:[NSString stringWithFormat:@"\n%@",str]];
-  [string writeToFile:newPath atomically:true
-  encoding:NSUTF8StringEncoding error:nil];
-}
-
-function readFromFileWithPath(path){
-   var str = NSString.stringWithContentsOfFile(path);
-   return str;
 }
 
 /**
@@ -65,15 +57,28 @@ function getDirectoryPath(){
     return null;
   }
 }
-
+/**
+* data[i] = entry then gets the value set to that layer and returns
+  the string data.
+* @param - {MSLayer} entry
+* @param - {MSPluginCommand} com
+* @return {string} return
+*/
 function addDataEntryForID(entry,com){
-
     s = ''+[com valueForKey:"0" onLayer:entry];
     return s;
-
 }
 
 
+//not used
+/*
+fileManager.appendedFileWithString = function(str){
+  var string = readFromFileWithPath(newPath);
+  string = [string stringByAppendingString:[NSString stringWithFormat:@"\n%@",str]];
+  [string writeToFile:newPath atomically:true
+  encoding:NSUTF8StringEncoding error:nil];
+}
+*/
 /*
 function readFromFileWithPath(path){
    var str = NSString.stringWithContentsOfFile(path);

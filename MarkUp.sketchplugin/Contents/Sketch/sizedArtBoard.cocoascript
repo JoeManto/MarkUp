@@ -1,13 +1,23 @@
 
 function onRun(context) {
   var doc = context.document;
+  //creates a new arboard
   var artboard = MSArtboardGroup.new();
   var artboardFrame = artboard.frame();
   makeArtboard(0,0,730,700);
-
+  //current artboard
   doc.currentPage().addLayers([artboard]);
+  //centers view on artboard
   doc.currentView().centerRect_(artboard.rect())
 
+  /**
+  * Creates a sized arboard based on the size of GitHub readme Page.
+  * @param - {int} x
+  * @param - {int} y
+  * @param - {int} w
+  * @param - {int} h
+  * @return {-}
+  */
   function makeArtboard(x,y,w,h){
     artboardFrame.setX(x)
     artboardFrame.setY(y)

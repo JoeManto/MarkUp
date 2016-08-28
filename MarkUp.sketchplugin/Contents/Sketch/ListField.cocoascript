@@ -4,9 +4,10 @@ function onRun(context) {
   var doc = context.document;
   var command = context.command;
   var page = [doc currentPage];
+  //current artboard.
   var artboard = doc.currentPage().currentArtboard();
+  //if there is not artboard on the screen.
   if(artboard == null){doc.displayMessage('Insert a artboard : Markup > Github-artboard');return;}
-
   //Makes alert box
   var alert = makeAlert();
   //Data on what you pressed in alert box and runs alert.
@@ -15,6 +16,13 @@ function onRun(context) {
   var textField;
   var isOrdered = false;
 
+
+  /**
+  * runs through string data from alert and creates layers then groups them in a grid like form
+    then displays the layers on the screen.
+  * @param -
+  * @return -
+  */
   function makeList(){
      var layer;
      var dot;
@@ -37,7 +45,13 @@ function onRun(context) {
      }
      //doc.currentView().centerRect_(group.rect())
   }
-
+  /**
+  * creates a open circle at the begining of the list.
+  * @param - {int} x
+  * @param - {int} y
+  * @param - {int} weight
+  * @return {COSAlertWindow} alert
+  */
   function makeOpenDot(x,y,weight){
       var ovalShape = MSOvalShape.alloc().init();
       ovalShape.frame = MSRect.rectWithRect(NSMakeRect(x,y,weight,weight));
@@ -50,6 +64,7 @@ function onRun(context) {
      return shapeGroup;
   }
 
+  /*notused
   function makeDot(x,y,weight){
       var ovalShape = MSOvalShape.alloc().init();
       ovalShape.frame = MSRect.rectWithRect(NSMakeRect(x,y,weight,weight));
@@ -60,16 +75,12 @@ function onRun(context) {
 
      return shapeGroup;
   }
-
-
-
-
+ */
 
   /*********************************alert
 
   /**
   * Made a new COSAlertWindow and set properties.
-  * @param -
   * @param -
   * @return {COSAlertWindow} alert
   */
@@ -88,7 +99,7 @@ function onRun(context) {
 
   /**
   * Used for global var options. handles the data in makeAlert()
-  * Data like Was "export hit" or "Cancel"
+  * Data codes for clicking "make" or "Cancel"
   * @param - {COSAlertWindow} alert
   * @param - {string} code
   * @return {-} -
@@ -111,7 +122,11 @@ function onRun(context) {
   return null;
   }
 
-
+  /**
+  * creates a NSView and adds subviews to that view then returns the NSView;
+  * @param - {-}
+  * @return {NSView} view
+  */
   function createDataEntryField(){
 
     var view = [[NSView alloc]initWithFrame:CGRectMake(0, 0, 400,100)];
@@ -142,26 +157,38 @@ function onRun(context) {
 
     return view;
   }
-
+  /**
+  * resets the global varable data and adds placeholder text and
+  * changes the current string value.
+  * @param - {-}
+  * @return {-}
+  */
   function resetData(){
     [textField setStringValue:@""];
     [[textField cell] setPlaceholderString:@"~All data has been reset"];
     data = [[NSMutableArray alloc]init];
   }
 
+  /**
+  * checks if the field is fill and then add the string value to data.
+  * @param - {NSTextField} textField
+  * @return {-}
+  */
   function updateDataEntryField(textField){
 
     if(stringUtil.isFieldFilled([textField stringValue])){
-         if(data == null){
-            data = [[NSMutableArray alloc]init];
-    }
+        if(data == null){data = [[NSMutableArray alloc]init];}
         [[textField cell] setPlaceholderString:@"type data entry"];
         [data addObject:[textField stringValue]];
         [textField setStringValue:@""];
     }
   }
 
-
+  /**
+  * selector of the NSButton resetButton. Sets isOrdered based on the Button State.
+  * @param - {NSTextField} textField
+  * @return {-}
+  */
   function markOrdered(button){
     if ([button state] == NSOnState) {
         isOrdered = true;
