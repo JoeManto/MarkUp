@@ -19,11 +19,12 @@ function onRun(context) {
    if(selectedCount == 0) {
      doc.displayMessage('No layers selected');
    } else {
-     var layer = selectedLayers[0];
+     doc.displayMessage('ss'+selectedLayers[0]);
      //Makes alert box
      alert = makeAlert();
      //Data on what you pressed in alert box and runs alert.
      options = handleAlertResponse(alert, alert.runModal());
+     selectAllLayers();
      //sorts selectedLayers by y value.
      sortDataForSelectedLayers();
      //creates file path and file and writes to that file.
@@ -52,6 +53,23 @@ function onRun(context) {
       }
       selectedLayers = dataz;
    }
+
+   function selectAllLayers(){
+       var newData = [[NSMutableArray alloc]init];
+       for(var i = 0;i<=selectedCount-1;i++){
+           layer = selectedLayers[i].children();
+           test = selectedLayers[i];
+           for(var x = 0;x<=[layer count]-1;x++){
+               layer[x].isSelected = true;
+               if(!(layer[x].isKindOfClass(MSLayerGroup))){
+                   [newData addObject:layer[x]];
+               }
+           }
+       }
+       selectedLayers = newData;
+   }
+
+
 
 
    /**

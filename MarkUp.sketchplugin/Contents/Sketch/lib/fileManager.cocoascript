@@ -17,7 +17,7 @@ fileManager.createFile = function(options,layers,com){
     newPath = getDirectoryPath();
     if(newPath) {
       command = com;
-      writeToFileForPathAndArray(newPath,layers);
+      writeToFileForPathAndArray(newPath,layers,com);
     }
   }
 };
@@ -29,10 +29,10 @@ fileManager.createFile = function(options,layers,com){
 * @param {NSMutableArray} data
 * @return -
 */
-function writeToFileForPathAndArray(path,data){
+function writeToFileForPathAndArray(path,data,com){
    var string = [NSString string];
    for(var i = 0;i<=[data count]-1;i++){
-     string = [string stringByAppendingString:[NSString stringWithFormat:@"%@\n",addDataEntryForID(data[i],command)]];
+     string = [string stringByAppendingString:[NSString stringWithFormat:@"%@\n",[com valueForKey:"0" onLayer:data[i]]]];
    }
    [string writeToFile:path atomically:true
    encoding:NSUTF8StringEncoding error:nil];
@@ -65,7 +65,7 @@ function getDirectoryPath(){
 * @return {string} return
 */
 function addDataEntryForID(entry,com){
-    s = ''+[com valueForKey:"0" onLayer:entry];
+    s = 'jjjjjjj';//+[com valueForKey:"0" onLayer:entry];
     return s;
 }
 

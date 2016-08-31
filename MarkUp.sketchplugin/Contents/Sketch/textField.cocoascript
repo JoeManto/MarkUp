@@ -22,7 +22,7 @@ function onRun(context) {
     //making the text layer.
     var layer = makeTextLayer();
     //adding item to data to export later.
-    [command setValue:mdFormatFor(textWeight,text) forKey:"0" onLayer:layer];
+    [command setValue:'sssss'/*mdFormatFor(textWeight,text) */forKey:"0" onLayer:layer];
   }
   /**
   * This function creates a text Layer based on the textWeight and centers the
@@ -54,11 +54,13 @@ function onRun(context) {
       }
       var group = MSLayerGroup.alloc().init();
       [group addLayers:groupArray];
-      [group setName:'GitHubText-Layer']
+      [group setName:'GitHubText-Layer'];
       [group setIsLocked:false];
+
+      group.identifer = '0';
       artboard.addLayers_([group]);
       doc.currentView().centerRect_(artboard.rect())
-      return Textlayer;
+      return group;
   };
 
   /**
