@@ -22,9 +22,10 @@ function onRun(context) {
      doc.displayMessage('ss'+selectedLayers[0]);
      //Makes alert box
      alert = makeAlert();
+     selectAllLayers();
      //Data on what you pressed in alert box and runs alert.
      options = handleAlertResponse(alert, alert.runModal());
-     selectAllLayers();
+
      //sorts selectedLayers by y value.
      sortDataForSelectedLayers();
      //creates file path and file and writes to that file.
@@ -68,9 +69,6 @@ function onRun(context) {
        }
        selectedLayers = newData;
    }
-
-
-
 
    /**
    * Made a new COSAlertWindow and set properties.

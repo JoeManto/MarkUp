@@ -60,7 +60,7 @@ function onRun(context) {
       group.identifer = '0';
       artboard.addLayers_([group]);
       doc.currentView().centerRect_(artboard.rect())
-      return group;
+      return Textlayer;
   };
 
   /**
