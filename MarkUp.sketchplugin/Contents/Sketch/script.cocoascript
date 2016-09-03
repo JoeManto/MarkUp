@@ -25,7 +25,7 @@ function onRun(context) {
      selectAllLayers();
      //Data on what you pressed in alert box and runs alert.
      options = handleAlertResponse(alert, alert.runModal());
-
+     selectAllLayers();
      //sorts selectedLayers by y value.
      sortDataForSelectedLayers();
      //creates file path and file and writes to that file.
@@ -59,17 +59,16 @@ function onRun(context) {
        var newData = [[NSMutableArray alloc]init];
        for(var i = 0;i<=selectedCount-1;i++){
            layer = selectedLayers[i].children();
-           test = selectedLayers[i];
-           for(var x = 0;x<=[layer count]-1;x++){
+              for(var x = 0;x<=[layer count]-1;x++){
                layer[x].isSelected = true;
                if(!(layer[x].isKindOfClass(MSLayerGroup))){
-                   [newData addObject:layer[x]];
+                [newData addObject:layer[x]];
                }
-           }
+              }
+
        }
        selectedLayers = newData;
    }
-
    /**
    * Made a new COSAlertWindow and set properties.
    * @param -

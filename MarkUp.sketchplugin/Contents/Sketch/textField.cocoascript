@@ -22,7 +22,7 @@ function onRun(context) {
     //making the text layer.
     var layer = makeTextLayer();
     //adding item to data to export later.
-    [command setValue:'sssss'/*mdFormatFor(textWeight,text) */forKey:"0" onLayer:layer];
+    [command setValue:mdFormatFor(textWeight,text)forKey:"0" onLayer:layer];
   }
   /**
   * This function creates a text Layer based on the textWeight and centers the
