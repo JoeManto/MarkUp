@@ -16,7 +16,6 @@ function onRun(context) {
   var textField;
   var isOrdered = false;
 
-
   /**
   * runs through string data from alert and creates layers then groups them in a grid like form
     then displays the layers on the screen.
@@ -41,7 +40,7 @@ function onRun(context) {
          artboard.addLayers_([dot]);
        }
         artboard.addLayers_([layer]);
-       y+=(weight+30);
+        y+=(weight+30);
      }
      //doc.currentView().centerRect_(group.rect())
   }

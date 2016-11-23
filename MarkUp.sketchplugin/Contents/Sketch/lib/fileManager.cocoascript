@@ -32,7 +32,8 @@ fileManager.createFile = function(options,layers,com){
 function writeToFileForPathAndArray(path,data,com){
    var string = [NSString string];
    for(var i = 0;i<=[data count]-1;i++){
-     string = [string stringByAppendingString:[NSString stringWithFormat:@"%@\n",[com valueForKey:"0" onLayer:data[i]]]];
+     
+     string = [string stringByAppendingString:[NSString stringWithFormat:@"s %@\n",data[i].identifier/*addDataEntryForID(data,com,i)*/]];
    }
    [string writeToFile:path atomically:true
    encoding:NSUTF8StringEncoding error:nil];
@@ -64,8 +65,9 @@ function getDirectoryPath(){
 * @param - {MSPluginCommand} com
 * @return {string} return
 */
-function addDataEntryForID(entry,com){
-    s = 'jjjjjjj';//+[com valueForKey:"0" onLayer:entry];
+function addDataEntryForID(entry,comm,x){
+    var s = [comm valueForKey:"0" onLayer:entry];
+    //var id = entry[x].identifier;
     return s;
 }
 

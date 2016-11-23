@@ -14,6 +14,8 @@ var layerUtil = {
       layer.stringValue = text;
       layer.fontPostscriptName = 'GithubText';
       layer.adjustFrameToFit();
+      layer.identifier = '0';
+      layer.tag = '3';
       return layer;
     },
 

@@ -5,7 +5,8 @@ function onRun(context) {
   var doc = context.document;
   var command = context.command;
   var artboard = doc.currentPage().currentArtboard();
-  if(artboard == null){doc.displayMessage('Insert a artboard : Markup > Github-artboard');return;}
+  if(artboard == null){doc.displayMessage('Insert a artboard : Markup > Github-artboard Or Select a artboard');return;}
+  artboard.isSelected = true;
   //holds the text layer value.
   var text;
   //holds the text size value.
@@ -21,6 +22,7 @@ function onRun(context) {
     textWeight = textWeightForHeader(options.headerValue);
     //making the text layer.
     var layer = makeTextLayer();
+
     //adding item to data to export later.
     [command setValue:mdFormatFor(textWeight,text)forKey:"0" onLayer:layer];
   }
@@ -40,7 +42,7 @@ function onRun(context) {
       }else{
         Textlayer.font = [NSFont fontWithName:@"Arial" size:textWeight];
       }
-      Textlayer.identifer = '0';
+
       [groupArray addObject:Textlayer];
 
       if(textWeight == 30 || textWeight == 23){
@@ -57,7 +59,7 @@ function onRun(context) {
       [group setName:'GitHubText-Layer'];
       [group setIsLocked:false];
 
-      group.identifer = '0';
+
       artboard.addLayers_([group]);
       doc.currentView().centerRect_(artboard.rect())
       return Textlayer;
@@ -91,19 +93,19 @@ function onRun(context) {
   * @return {string} header
   */
   function githubHeaderValueForWeight(weight){
-    if(weight == 8 ){
+    if(weight == 15 ){
       return '';
-    }else if(weight == 11){
+    }else if(weight == 30){
       return '#';
-    }else if(weight == 14){
-      return '##';
-    }else if(weight == 17){
-      return '###';
-    }else if(weight == 20){
-      return '####';
     }else if(weight == 23){
+      return '##';
+    }else if(weight == 20){
+      return '###';
+    }else if(weight == 17){
+      return '####';
+    }else if(weight == 14){
       return '#####';
-    }else if(weight == 26){
+    }else if(weight == 13){
       return '######';
     }
   }
@@ -114,8 +116,8 @@ function onRun(context) {
   * @return {String} formatedText
   */
   function mdFormatFor(w,t){
-    var s = '';
-    s = githubHeaderValueForWeight(w)+t;
+    
+    var s = ''+githubHeaderValueForWeight(w)+''+t;
     return s;
   }
 
@@ -129,8 +131,8 @@ function onRun(context) {
     var alert = COSAlertWindow.new();
     alert.setMessageText('GitHubTextLayer');
     alert.setInformativeText('Add data to your Text Layer');
-    var headerSelectorOptions = ['h1-html','h2-html','h3-html','h4-html','h5-html','h6-html','Plain Text'];
-    var Selection = createSelectionBox(headerSelectorOptions, 6);
+    var headerSelectorOptions = ['h1-html','h2-html','h3-html','h4-html','h5-html','h6-html','Plain-Text'];
+    var Selection = createSelectionBox(headerSelectorOptions, 5);
     alert.addAccessoryView(Selection);
     alert.addTextFieldWithValue('Text Value');
     alert.addButtonWithTitle('Make');

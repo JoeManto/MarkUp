@@ -19,18 +19,18 @@ function onRun(context) {
    if(selectedCount == 0) {
      doc.displayMessage('No layers selected');
    } else {
-     doc.displayMessage('ss'+selectedLayers[0]);
      //Makes alert box
      alert = makeAlert();
-     selectAllLayers();
+
      //Data on what you pressed in alert box and runs alert.
      options = handleAlertResponse(alert, alert.runModal());
      selectAllLayers();
+     doc.displayMessage([command valueForKey:"0" onLayer:selectedLayers[0]]);
      //sorts selectedLayers by y value.
      sortDataForSelectedLayers();
+     //doc.displayMessage('ss'+selectedLayers[0].stringValue());
      //creates file path and file and writes to that file.
      fileManager.createFile(options,selectedLayers,command);
-
    }
 
 
@@ -64,8 +64,7 @@ function onRun(context) {
                if(!(layer[x].isKindOfClass(MSLayerGroup))){
                 [newData addObject:layer[x]];
                }
-              }
-
+             }
        }
        selectedLayers = newData;
    }
@@ -99,6 +98,4 @@ function onRun(context) {
      }
      return null;
    }
-
-
 };
